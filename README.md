@@ -2,7 +2,7 @@
 ![Version 1.0](https://img.shields.io/badge/Version-1.0.0-orange.svg)
 ![Python 3.10.9+](https://img.shields.io/badge/Python-3.10.9+-3776ab.svg)
 
-Monero-USD-Price is an easy way to get the current median or average price of Monero. 
+Monero-USD-Price is an easy way to get the current median or average price of Monero in USD. 
 
 Median is recommended over average, because it is less sensitive to outliers.
 
