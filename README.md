@@ -4,7 +4,7 @@
 
 Monero-USD-Price is an easy way to get the current median or average price of Monero. 
 
-Median is recommended over average, because it less sensitive to outliers.
+Median is recommended over average, because it is less sensitive to outliers.
 
 
 # How To Use:
