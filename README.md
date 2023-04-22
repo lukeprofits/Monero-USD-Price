@@ -20,7 +20,7 @@ For example: `(MoneroUSDPrice.median_price(print_price_to_console=True)`, or `(M
 
 
 # Donate
-If you use this, throw me some XMR (even if it's just a few cents)
+If you use this, send me some XMR (even if it's just a few cents)
 
 XMR: `4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE5czFR3hbEEJbsm4hCeX2S`
 
