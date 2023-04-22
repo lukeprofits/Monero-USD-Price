@@ -26,7 +26,7 @@ XMR: `4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE
 
 
 # Supported Exchanges:
-* Coingecko
+* CoinGecko
 * Binance
 * CoinMarketCap
 * CryptoCompare
