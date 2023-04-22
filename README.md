@@ -10,13 +10,13 @@ Median is recommended over average, because it is less sensitive to outliers.
 # How To Use:
 * Install this package: `pip install monero_usd_price`
 * Import it at the top of your project: `import monero_usd_price`
-* To get the median XMR/USD price: `MoneroUSDPrice.median_price()`
-* To get the average XMR/USD price: `MoneroUSDPrice.average_price()`
-* To get the XMR/USD price from any of the supported exchanges: `MoneroUSDPrice.coingecko()`, `MoneroUSDPrice.coinmarketcap()`, `MoneroUSDPrice.localmonero()`, etc.
+* To get the median XMR/USD price: `monero_usd_price.median_price()`
+* To get the average XMR/USD price: `monero_usd_price.average_price()`
+* To get the XMR/USD price from any of the supported exchanges: `monero_usd_price.coingecko()`, `monero_usd_price.coinmarketcap()`, `monero_usd_price.localmonero()`, etc.
 
 Additonally, you can add the argument `print_price_to_console=True` to any of these if you would like to see output.
 
-For example: `MoneroUSDPrice.median_price(print_price_to_console=True)`, or `MoneroUSDPrice.localmonero(print_price_to_console=True)`
+For example: `monero_usd_price.median_price(print_price_to_console=True)`, or `monero_usd_price.localmonero(print_price_to_console=True)`
 
 
 # Donate
