@@ -8,16 +8,15 @@ Median is recommended over average, because it less sensitive to outliers.
 
 
 # How To Use:
-* `pip install requests`
-* `pip install `
-* `import monero_usd_price`
-* For Median: ``
-* For Average: ``
-* For any of the supported exchanges: ``
+* Install this package: `pip install monero_usd_price`
+* Import it at the top of your project: `import monero_usd_price`
+* For Median: `MoneroUSDPrice.median_price()`
+* For Average: `MoneroUSDPrice.average_price()`
+* For any of the supported exchanges: `MoneroUSDPrice.coingecko()`, `MoneroUSDPrice.coinmarketcap()`, `MoneroUSDPrice.localmonero()`, etc.
 
 Additonally, you can add the argument `print_price_to_console=True` to any of these if you would like to see output.
 
-For example: `(print_price_to_console=True)`
+For example: `(MoneroUSDPrice.median_price(True)`, or `(MoneroUSDPrice.localmonero(True)`
 
 
 # Donate
