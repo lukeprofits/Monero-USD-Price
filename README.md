@@ -16,7 +16,8 @@ Median is recommended over average, because it less sensitive to outliers.
 * For any of the supported exchanges: ``
 
 Additonally, you can add the argument `print_price_to_console=True` to any of these if you would like to see output.
-For example `(print_price_to_console=True)`
+
+For example: `(print_price_to_console=True)`
 
 
 # Donate
