@@ -16,7 +16,7 @@ Median is recommended over average, because it is less sensitive to outliers.
 
 Additonally, you can add the argument `print_price_to_console=True` to any of these if you would like to see output.
 
-For example: `(MoneroUSDPrice.median_price(print_price_to_console=True)`, or `(MoneroUSDPrice.localmonero(print_price_to_console=True)`
+For example: `MoneroUSDPrice.median_price(print_price_to_console=True)`, or `MoneroUSDPrice.localmonero(print_price_to_console=True)`
 
 
 # Donate
