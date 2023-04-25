@@ -40,7 +40,7 @@ XMR: `4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE
 
 
 ## Requirements
-* [Python 3.8+](https://www.python.org/downloads/) or above
+* [Python 3.8](https://www.python.org/downloads/) or above
 * [Requests](https://github.com/psf/requests)
 
 
