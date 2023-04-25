@@ -1,6 +1,6 @@
 # Monero-USD-Price
 ![Version 1.0](https://img.shields.io/badge/Version-1.0.0-orange.svg)
-![Python 3.10.9+](https://img.shields.io/badge/Python-3.10.9+-3776ab.svg)
+![Python 3.8+](https://img.shields.io/badge/Python-3.8+-3776ab.svg)
 
 Monero-USD-Price is an easy way to get the current median or average price of Monero in USD. 
 
@@ -40,7 +40,7 @@ XMR: `4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE
 
 
 ## Requirements
-* [Python 3.10.9](https://www.python.org/downloads/) or above
+* [Python 3.8+](https://www.python.org/downloads/) or above
 * [Requests](https://github.com/psf/requests)
 
 
