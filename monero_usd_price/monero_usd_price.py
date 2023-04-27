@@ -123,7 +123,7 @@ def hitbtc(print_price_to_console=False):
     return None
 
 
-def get_monero_price_from_all_exchanges(print_price_to_console=False):
+def get_monero_price_from_all_exchanges_not_threaded(print_price_to_console=False):
     prices = []
 
     coingecko_price = coingecko(print_price_to_console=print_price_to_console)
@@ -178,6 +178,26 @@ def get_monero_price_from_all_exchanges(print_price_to_console=False):
         return None
 
 
+def get_monero_price_from_all_exchanges(print_price_to_console=False):
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+    prices = []
+
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        futures = [executor.submit(func, print_price_to_console=print_price_to_console) for func in [coingecko, coinmarketcap, binance, cryptocompare, kraken, bitfinex, localmonero, poloniex, huobi, kucoin, hitbtc]]
+
+        for future in as_completed(futures):
+            price = future.result()
+            if price:
+                prices.append(price)
+
+    if len(prices) >= 1:  # Make sure that getting at least 1 price was successful
+        sorted_prices = sorted(prices)  # low to high
+        return sorted_prices
+    else:
+        print("Error! Didn't get any XMR/USD prices!")
+        return None
+
+
 def average_price(print_price_to_console=False):
     # RECOMMENDED TO USE MEDIAN INSTEAD OF AVERAGE
     sorted_prices = get_monero_price_from_all_exchanges(print_price_to_console=print_price_to_console)
@@ -194,6 +214,39 @@ def average_price(print_price_to_console=False):
 
 def median_price(print_price_to_console=False):
     sorted_prices = get_monero_price_from_all_exchanges(print_price_to_console=print_price_to_console)
+    if sorted_prices:
+        # Get median price (less sensitive to outliers than average)
+        if len(sorted_prices) % 2 == 1:
+            # If the length of the list is odd, return the middle element
+            median_price = sorted_prices[len(sorted_prices) // 2]
+        else:
+            # If the length of the list is even, return the average of the two middle elements
+            median_price = (sorted_prices[len(sorted_prices) // 2 - 1] + sorted_prices[len(sorted_prices) // 2]) / 2
+
+        median_price = round(median_price, 2)  # round to 2 decimals
+
+        print(f'\nMedian price is: {median_price} out of {len(sorted_prices)} exchanges') if print_price_to_console else None
+        return median_price
+    else:
+        return None
+
+
+def average_price_not_threaded(print_price_to_console=False):
+    # RECOMMENDED TO USE MEDIAN INSTEAD OF AVERAGE
+    sorted_prices = get_monero_price_from_all_exchanges_not_threaded(print_price_to_console=print_price_to_console)
+    if sorted_prices:
+        # Get average price
+        avg_price = sum(sorted_prices) / len(sorted_prices)
+        # round to 2 decimals
+        avg_price = round(avg_price, 2)
+        print(f'\nAverage price is: {avg_price} out of {len(sorted_prices)} exchanges') if print_price_to_console else None
+        return avg_price
+    else:
+        return None
+
+
+def median_price_not_threaded(print_price_to_console=False):
+    sorted_prices = get_monero_price_from_all_exchanges_not_threaded(print_price_to_console=print_price_to_console)
     if sorted_prices:
         # Get median price (less sensitive to outliers than average)
         if len(sorted_prices) % 2 == 1:
