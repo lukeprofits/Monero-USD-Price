@@ -1,126 +1,161 @@
+import time
+
 import requests
 
 
 # FUNCTIONS ############################################################################################################
 def coingecko(print_price_to_console=False):
-    # Make a GET request to the CoinGecko API for XMR/USD exchange rate
-    response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=monero&vs_currencies=usd')
+    try:
+        # Make a GET request to the CoinGecko API for XMR/USD exchange rate
+        response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=monero&vs_currencies=usd')
 
-    # Check if the request was successful
-    if response.status_code == 200:
-        # Parse the response JSON and extract the XMR/USD exchange rate
-        xmr_usd_rate = response.json()['monero']['usd']
-        print(f"Coin Gecko: {xmr_usd_rate}") if print_price_to_console else None
-        return xmr_usd_rate
-    else:
-        print("Error: Could not retrieve XMR/USD exchange rate")
+        # Check if the request was successful
+        if response.status_code == 200:
+            # Parse the response JSON and extract the XMR/USD exchange rate
+            xmr_usd_rate = response.json()['monero']['usd']
+            print(f"Coin Gecko: {xmr_usd_rate}") if print_price_to_console else None
+            return xmr_usd_rate
+        else:
+            print("Error: Could not retrieve XMR/USD exchange rate")
+    except:
+        pass
 
 
 def binance(print_price_to_console=False):
-    response = requests.get('https://api.binance.com/api/v3/ticker/price', params={'symbol': 'XMRUSDT'})
-    #print(response.content)  # Does not work from US ip address
-    if response.status_code == 200:
-        xmr_usd_rate = float(response.json()['price'])
-        print(f'Binance: {xmr_usd_rate}') if print_price_to_console else None
-        return xmr_usd_rate
-    else:
-        return None
+    try:
+        response = requests.get('https://api.binance.com/api/v3/ticker/price', params={'symbol': 'XMRUSDT'})
+        #print(response.content)  # Does not work from US ip address
+        if response.status_code == 200:
+            xmr_usd_rate = float(response.json()['price'])
+            print(f'Binance: {xmr_usd_rate}') if print_price_to_console else None
+            return xmr_usd_rate
+        else:
+            return None
+    except:
+        pass
 
 
 def coinmarketcap(print_price_to_console=False):
-    response = requests.get('https://coinmarketcap.com/currencies/monero/')
-    if response.status_code == 200:
-        xmr_usd_rate = round(float(str(response.content).split(
-            '"currency":"XMR","currentExchangeRate":{"@type":"UnitPriceSpecification","price":')[1].split(',"')[0]), 2)
-        print(f'CoinMarketCap: {xmr_usd_rate}') if print_price_to_console else None
-        return xmr_usd_rate
-    else:
-        return None
+    try:
+        response = requests.get('https://coinmarketcap.com/currencies/monero/')
+        if response.status_code == 200:
+            xmr_usd_rate = round(float(str(response.content).split(
+                '"currency":"XMR","currentExchangeRate":{"@type":"UnitPriceSpecification","price":')[1].split(',"')[0]), 2)
+            print(f'CoinMarketCap: {xmr_usd_rate}') if print_price_to_console else None
+            return xmr_usd_rate
+        else:
+            return None
+    except:
+        pass
 
 
 def cryptocompare(print_price_to_console=False):
-    response = requests.get('https://min-api.cryptocompare.com/data/price', params={'fsym': 'XMR', 'tsyms': 'USD'})
-    if response.status_code == 200:
-        xmr_usd_rate = response.json()['USD']
-        print(f'CryptoCompare: {xmr_usd_rate}') if print_price_to_console else None
-        return xmr_usd_rate
-    else:
-        return None
+    try:
+        response = requests.get('https://min-api.cryptocompare.com/data/price', params={'fsym': 'XMR', 'tsyms': 'USD'})
+        if response.status_code == 200:
+            xmr_usd_rate = response.json()['USD']
+            print(f'CryptoCompare: {xmr_usd_rate}') if print_price_to_console else None
+            return xmr_usd_rate
+        else:
+            return None
+    except:
+        pass
 
 
 def kraken(print_price_to_console=False):
-    response = requests.get('https://api.kraken.com/0/public/Ticker', params={'pair': 'XMRUSD'})
-    if response.status_code == 200:
-        xmr_usd_rate = float(response.json()['result']['XXMRZUSD']['c'][0])
-        print(f'Kraken: {xmr_usd_rate}') if print_price_to_console else None
-        return xmr_usd_rate
-    else:
-        return None
+    try:
+        response = requests.get('https://api.kraken.com/0/public/Ticker', params={'pair': 'XMRUSD'})
+        if response.status_code == 200:
+            xmr_usd_rate = float(response.json()['result']['XXMRZUSD']['c'][0])
+            print(f'Kraken: {xmr_usd_rate}') if print_price_to_console else None
+            return xmr_usd_rate
+        else:
+            return None
+    except:
+        pass
 
 
 def bitfinex(print_price_to_console=False):
-    response = requests.get('https://api-pub.bitfinex.com/v2/ticker/tXMRUSD')
-    if response.status_code == 200:
-        xmr_usd_rate = float(response.json()[6])
-        print(f'Bitfinex: {xmr_usd_rate}') if print_price_to_console else None
-        return xmr_usd_rate
-    else:
-        return None
+    try:
+        response = requests.get('https://api-pub.bitfinex.com/v2/ticker/tXMRUSD')
+        if response.status_code == 200:
+            xmr_usd_rate = float(response.json()[6])
+            print(f'Bitfinex: {xmr_usd_rate}') if print_price_to_console else None
+            return xmr_usd_rate
+        else:
+            return None
+    except:
+        pass
 
 
 def localmonero(print_price_to_console=False):
     # 'nehdddktmhvqklsnkjqcbpmb63htee2iznpcbs5tgzctipxykpj6yrid.onion'
-    response = requests.get('https://localmonero.co/buy-monero-with-usd-in-united-states-of-america')
-    if response.status_code == 200:
-        xmr_usd_rate = float(str(response.content).split(' USD<!-- --> ')[0].split('">')[-1])
-        print(f'LocalMonero: {xmr_usd_rate}') if print_price_to_console else None
-        return xmr_usd_rate
-    else:
-        return None
+    try:
+        response = requests.get('https://localmonero.co/buy-monero-with-usd-in-united-states-of-america')
+        if response.status_code == 200:
+            xmr_usd_rate = float(str(response.content).split(' USD<!-- --> ')[0].split('">')[-1])
+            print(f'LocalMonero: {xmr_usd_rate}') if print_price_to_console else None
+            return xmr_usd_rate
+        else:
+            return None
+    except:
+        pass
 
 
 def poloniex(print_price_to_console=False):
-    response = requests.get('https://poloniex.com/public?command=returnTicker')
-    if response.status_code == 200:
-        ticker = response.json().get('USDT_XMR')
-        if ticker:
-            xmr_usd_rate = float(ticker.get('last'))
-            print(f'Poloniex: {xmr_usd_rate}') if print_price_to_console else None
-            return xmr_usd_rate
-    return None
+    try:
+        response = requests.get('https://poloniex.com/public?command=returnTicker')
+        if response.status_code == 200:
+            ticker = response.json().get('USDT_XMR')
+            if ticker:
+                xmr_usd_rate = float(ticker.get('last'))
+                print(f'Poloniex: {xmr_usd_rate}') if print_price_to_console else None
+                return xmr_usd_rate
+        return None
+    except:
+        pass
 
 
 def huobi(print_price_to_console=False):
-    response = requests.get('https://api.huobi.pro/market/detail/merged?symbol=xmrusdt')
-    if response.status_code == 200:
-        ticker = response.json().get('tick')
-        if ticker:
-            xmr_usd_rate = float(ticker.get('close'))
-            print(f'Huobi: {xmr_usd_rate}') if print_price_to_console else None
-            return xmr_usd_rate
-    return None
+    try:
+        response = requests.get('https://api.huobi.pro/market/detail/merged?symbol=xmrusdt')
+        if response.status_code == 200:
+            ticker = response.json().get('tick')
+            if ticker:
+                xmr_usd_rate = float(ticker.get('close'))
+                print(f'Huobi: {xmr_usd_rate}') if print_price_to_console else None
+                return xmr_usd_rate
+        return None
+    except:
+        pass
 
 
 def kucoin(print_price_to_console=False):
-    response = requests.get('https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=XMR-USDT')
-    if response.status_code == 200:
-        ticker = response.json().get('data')
-        if ticker:
-            xmr_usd_rate = float(ticker.get('price'))
-            print(f'KuCoin: {xmr_usd_rate}') if print_price_to_console else None
-            return xmr_usd_rate
-    return None
+    try:
+        response = requests.get('https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=XMR-USDT')
+        if response.status_code == 200:
+            ticker = response.json().get('data')
+            if ticker:
+                xmr_usd_rate = float(ticker.get('price'))
+                print(f'KuCoin: {xmr_usd_rate}') if print_price_to_console else None
+                return xmr_usd_rate
+        return None
+    except:
+        pass
 
 
 def hitbtc(print_price_to_console=False):
-    response = requests.get('https://api.hitbtc.com/api/3/public/ticker/XMRUSDT')
-    if response.status_code == 200:
-        ticker = response.json()
-        if ticker:
-            xmr_usd_rate = round(float(ticker.get('last')), 2)  # round to 2 decimals
-            print(f'HitBTC: {xmr_usd_rate}') if print_price_to_console else None
-            return xmr_usd_rate
-    return None
+    try:
+        response = requests.get('https://api.hitbtc.com/api/3/public/ticker/XMRUSDT')
+        if response.status_code == 200:
+            ticker = response.json()
+            if ticker:
+                xmr_usd_rate = round(float(ticker.get('last')), 2)  # round to 2 decimals
+                print(f'HitBTC: {xmr_usd_rate}') if print_price_to_console else None
+                return xmr_usd_rate
+        return None
+    except:
+        pass
 
 
 def get_monero_price_from_all_exchanges_not_threaded(print_price_to_console=False):
@@ -262,6 +297,32 @@ def median_price_not_threaded(print_price_to_console=False):
         return median_price
     else:
         return None
+
+
+def calculate_monero_from_usd(usd_amount, print_price_to_console=False):
+    monero_price = median_price(print_price_to_console=print_price_to_console)
+    monero_amount = round(usd_amount / monero_price, 12)
+    if print_price_to_console:
+        print(monero_amount)
+    return monero_amount
+
+
+def calculate_usd_from_monero(monero_amount, print_price_to_console=False):
+    monero_price = median_price(print_price_to_console=print_price_to_console)
+    usd_amount = round(monero_amount * monero_price, 2)
+    if print_price_to_console:
+        print(usd_amount)
+    return usd_amount
+
+
+def calculate_atomic_units_from_monero(monero_amount):
+    atomic_units = int(monero_amount * 1e12)
+    return atomic_units
+
+
+def calculate_monero_from_atomic_units(atomic_units):
+    monero = int(atomic_units) / 1e12
+    return monero
 
 
 def print_monero_logo():
