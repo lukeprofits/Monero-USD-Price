@@ -9,6 +9,7 @@ requests = "*"
 [dev-packages]
 requests_mock = "*"
 coverage = "*"
+ruff = "*"
 
 [requires]
 python_version = "3"

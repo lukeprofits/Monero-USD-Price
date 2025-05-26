@@ -1,7 +1,5 @@
-import time
 from decimal import Decimal
 import requests
-from contextlib import contextmanager
 
 # FUNCTIONS ############################################################################################################    
 def price_request(url, func, pms={}):
@@ -12,15 +10,18 @@ def price_request(url, func, pms={}):
             return Decimal(usd_rate).quantize(Decimal('0.00'))
         else:
             return False
-    except:
+
+    except Exception:
         return False
 
 def coingecko():
-    json_fetch = lambda response: response['monero']['usd']
+    def json_fetch(response):
+        return response['monero']['usd']
     return price_request('https://api.coingecko.com/api/v3/simple/price?ids=monero&vs_currencies=usd', json_fetch)
 
 def binance():
-    json_fetch = lambda response: response['price']
+    def json_fetch(response):
+        return response['price']
     return price_request('https://api.binance.com/api/v3/ticker/price', json_fetch, {'symbol': 'XMRUSDT'})
 
 #Convert to actually using the API?
@@ -39,31 +40,38 @@ def binance():
 
 
 def cryptocompare():
-    json_fetch = lambda response: response['USD']
+    def json_fetch(response):
+        return response['USD']
     return price_request('https://min-api.cryptocompare.com/data/price', json_fetch, {'fsym': 'XMR', 'tsyms': 'USD'})
 
 def kraken():
-    json_fetch = lambda response: response['result']['XXMRZUSD']['c'][0]
+    def json_fetch(response):
+        return response['result']['XXMRZUSD']['c'][0]
     return price_request('https://api.kraken.com/0/public/Ticker', json_fetch, {'pair': 'XMRUSD'})
 
 def bitfinex():
-    json_fetch = lambda response: response[6]
+    def json_fetch(response):
+        return response[6]
     return price_request('https://api-pub.bitfinex.com/v2/ticker/tXMRUSD', json_fetch, {})
 
 def poloniex():
-    json_fetch = lambda response: response.get('USDT_XMR', {}).get('last')
+    def json_fetch(response):
+        return response.get('USDT_XMR', {}).get('last')
     return price_request('https://poloniex.com/public?command=returnTicker', json_fetch, {})
 
 def huobi():
-    json_fetch = lambda response: response.get('tick', {}).get('close')
+    def json_fetch(response):
+        return response.get('tick', {}).get('close')
     return price_request('https://api.huobi.pro/market/detail/merged?symbol=xmrusdt', json_fetch, {})
 
 def kucoin():
-    json_fetch = lambda response: response.get('data', {}).get('price')
+    def json_fetch(response):
+        return response.get('data', {}).get('price')
     return price_request('https://api.kucoin.com/api/v1/market/orderbook/level1?symbol=XMR-USDT', json_fetch, {})
 
 def hitbtc():
-    json_fetch = lambda response: response.get('last')
+    def json_fetch(response):
+        return response.get('last')
     return price_request('https://api.hitbtc.com/api/3/public/ticker/XMRUSDT', json_fetch, {})
 
 def get_monero_price_from_all_exchanges_not_threaded():
