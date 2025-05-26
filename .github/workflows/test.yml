@@ -14,5 +14,5 @@ jobs:
       - name: Running tests
         run: |
           pip install pipenv
-          pipenv install --deev
+          pipenv install --dev
           pipenv run tests
