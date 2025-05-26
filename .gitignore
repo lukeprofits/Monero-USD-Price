@@ -2,3 +2,4 @@ build
 .vscode
 .coverage
 __pycache__
+.ruff_cache
