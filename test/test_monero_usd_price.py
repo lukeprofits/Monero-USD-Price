@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import TestCase, mock
 from monero_usd_price.monero_usd_price import *
 import vcr
 from decimal import Decimal
@@ -35,8 +35,24 @@ class TestMoneroUsdPrice(TestCase):
     def hitbtc_request(self, mock):
         return mock.get('https://api.hitbtc.com/api/3/public/ticker/XMRUSDT', json={'last': '200.00'})
 
+    def failed_coingecko_request(self, mock):
+        return mock.get('https://api.coingecko.com/api/v3/simple/price?ids=monero&vs_currencies=usd', status_code=401)
+
     @contextmanager
-    def mock_requests(self):
+    def mock_requests_even(self):
+        with requests_mock.Mocker() as m:
+            self.coingecko_request(m)
+            self.cryptocompare_request(m)
+            self.binance_request(m)
+            self.kraken_request(m)
+            self.bitfinex_request(m)
+            self.poloniex_request(m)
+            self.huobi_request(m)
+            self.kucoin_request(m)
+            yield m
+
+    @contextmanager
+    def mock_requests_odd(self):
         with requests_mock.Mocker() as m:
             self.coingecko_request(m)
             self.cryptocompare_request(m)
@@ -50,37 +66,58 @@ class TestMoneroUsdPrice(TestCase):
             yield m
 
     def test_median_price(self):
-        with self.mock_requests():
+        with self.mock_requests_odd():
             self.assertEqual(median_price(), Decimal('200.00'))
- 
+
+        with self.mock_requests_even():
+            self.assertEqual(median_price(), Decimal('200.00'))
+
+    def test_median_price_failure(self):
+        with mock.patch('monero_usd_price.monero_usd_price.price_request', return_value=False): 
+            self.assertEqual(median_price(), None)
+
     def test_get_monero_price_from_all_exchanges(self):
-        with self.mock_requests():
+        with self.mock_requests_odd():
             self.assertEqual(get_monero_price_from_all_exchanges(), [Decimal('0.20'), Decimal('200.00'), Decimal('200.00'), 
                 Decimal('200.00'), Decimal('200.00'), Decimal('200.00'), Decimal('250.00'), Decimal('398.17'), Decimal('398.17')])
 
     def test_get_monero_price_from_all_exchanges_not_threaded(self):
-        with self.mock_requests():
+        with self.mock_requests_odd():
             self.assertEqual(get_monero_price_from_all_exchanges_not_threaded(), [Decimal('0.20'), Decimal('200.00'), Decimal('200.00'), 
                 Decimal('200.00'), Decimal('200.00'), Decimal('200.00'), Decimal('250.00'), Decimal('398.17'), Decimal('398.17')])
 
     def test_average_price(self):
-        with self.mock_requests():
+        with self.mock_requests_odd():
             self.assertEqual(average_price(), Decimal('227.39'))
 
+    def test_average_price_failure(self):
+        with mock.patch('monero_usd_price.monero_usd_price.price_request', return_value=False):
+            self.assertEqual(average_price(), None)
+
     def test_average_price_not_threaded(self):
-        with self.mock_requests():
+        with self.mock_requests_odd():
             self.assertEqual(average_price_not_threaded(), Decimal('227.39'))
 
+    def test_average_price_not_threaded_failure(self):
+        with mock.patch('monero_usd_price.monero_usd_price.price_request', return_value=False):
+            self.assertEqual(average_price_not_threaded(), None)
+
     def test_median_price_not_threaded(self):
-        with self.mock_requests():
+        with self.mock_requests_odd():
             self.assertEqual(median_price_not_threaded(), Decimal('200.00'))
+        with self.mock_requests_even():
+            self.assertEqual(median_price_not_threaded(), Decimal('200.00'))
+ 
+    def test_median_price_not_threaded_failure(self):
+        with mock.patch('monero_usd_price.monero_usd_price.price_request', return_value=False):
+            self.assertEqual(median_price_not_threaded(), None)
 
     def test_calculate_monero_from_usd(self):
-        with self.mock_requests():
+        with self.mock_requests_odd():
             self.assertEqual(calculate_monero_from_usd(Decimal('100')), Decimal('0.5'))
 
     def test_calculate_usd_from_monero(self):
-        with self.mock_requests():
+        with self.mock_requests_odd():
             self.assertEqual(calculate_usd_from_monero(Decimal('1.5')), Decimal('300'))
 
     def test_calculate_atomic_units_from_monero(self):
@@ -88,6 +125,15 @@ class TestMoneroUsdPrice(TestCase):
 
     def test_calculate_monero_from_atomic_units(self):
         self.assertEqual(calculate_monero_from_atomic_units(1024150), Decimal('.00000102415'))
+
+    def test_failing_response(self):
+        with requests_mock.Mocker() as m:
+            self.failed_coingecko_request(m)
+            self.assertEqual(coingecko(), False)
+
+    def test_exception(self):
+        with mock.patch('requests.get', side_effect=Exception('Mocked exception')):
+            self.assertEqual(coingecko(), False)
 
     def test_coingecko(self):
         with requests_mock.Mocker() as m:
