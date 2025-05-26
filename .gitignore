@@ -3,3 +3,4 @@ build
 .coverage
 __pycache__
 .ruff_cache
+dist

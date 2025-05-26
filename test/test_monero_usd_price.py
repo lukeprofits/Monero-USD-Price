@@ -152,46 +152,38 @@ class TestMoneroUsdPrice(TestCase):
         with requests_mock.Mocker() as m:
             self.cryptocompare_request(m)
             self.assertEqual(cryptocompare(), Decimal('398.17'))
-            # Mock other crypto_compare API calls here
     
     def test_kraken(self):
         with requests_mock.Mocker() as m:
             self.kraken_request(m)
             self.assertEqual(kraken(), Decimal('200.00'))
-            # Mock other kraken API calls here
     
     def test_bitfinex(self):
         with requests_mock.Mocker() as m:
             self.bitfinex_request(m)
             self.assertEqual(bitfinex(), Decimal('200.00'))
-            # Mock other bitfinex API calls here
     
     def test_poloniex(self):
         with requests_mock.Mocker() as m:
             self.poloniex_request(m)
             self.assertEqual(poloniex(), Decimal('0.20'))
-            # Mock other poloniex API calls here
     
     def test_huobi(self):
         with requests_mock.Mocker() as m:
             self.huobi_request(m)
             self.assertEqual(huobi(), Decimal('200.00'))
-            # Mock other huobi API calls here
     
     def test_kucoin(self):
         with requests_mock.Mocker() as m:
             self.kucoin_request(m)
             self.assertEqual(kucoin(), Decimal('250.00'))
-            # Mock other kucoin API calls here
     
     def test_hitbtc(self):
         with requests_mock.Mocker() as m:
             self.hitbtc_request(m)
             self.assertEqual(hitbtc(), Decimal('200.00'))
-            # Mock other hitbtc API calls here
 
     def test_binance(self):
         with requests_mock.Mocker() as m:
             self.binance_request(m)
             self.assertEqual(binance(), Decimal('200.00'))
-            # Mock other binance API calls here
